@@ -1,0 +1,11 @@
+.venv
+__pycache__
+
+checkpoints
+datasets
+logs
+merged
+wandb
+
+*.0
+*.jsonl

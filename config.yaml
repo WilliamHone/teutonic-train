@@ -1,0 +1,67 @@
+# config.yaml
+# =============================================================================
+# Model & Data
+# =============================================================================
+model_path: ClarenceDan/Teutonic-VIII-A5502
+data_file: datasets/dataset_v002_std.jsonl
+eval_shard_dir: "../teutonic_dataset_eval"      # Directory with .npy files
+eval_shard_seq_len: 2048                     # Should match max_length
+eval_shard_max_samples: 100                 # Per-shard sampling limit
+eval_shard_total_samples: 10000              # Global limit (optional)
+eval_shard_seed: 2                          # For reproducibility
+output_dir: checkpoints/VIII/teutonic_vera6_v03
+
+# ✅ Use SFTConfig's native fields:
+max_length: 2048           # ← from SFTConfig
+seed: 2                  # ← from TrainingArguments
+eval_split_ratio: 0     # ✅ Custom field
+skip_prepare_dataset: true # ✅ Custom field
+
+# =============================================================================
+# LoRA
+# =============================================================================
+use_lora: true
+r: 64
+alpha: 640
+dropout: 0.1
+target_modules: "all-linear"
+init_lora_weights: "gaussian"
+# use_rslora: true
+
+# =============================================================================
+# Training (ALL from SFTConfig - no conflicts!)
+# =============================================================================
+num_train_epochs: 1
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 2
+learning_rate: 1e-5
+lr_scheduler_type: "cosine_with_min_lr"
+lr_scheduler_kwargs:
+  min_lr_rate: 0.1
+warmup_steps: 0
+bf16: true
+optim: "adamw_torch_fused"
+use_liger_kernel: true
+dataloader_drop_last: true
+dataloader_num_workers: 2
+dataloader_pin_memory: true
+weight_decay: 0.01
+
+# Logging & checkpointing
+logging_steps: 10
+eval_strategy: "steps"
+save_strategy: "steps"
+eval_steps: 100
+save_steps: 100
+save_only_model: true
+include_num_input_tokens_seen: true
+report_to: "wandb"
+
+# Resume
+auto_resume: true
+log_dir: "logs"
+
+# Distributed
+ddp_backend: "nccl"
+ddp_find_unused_parameters: false
+save_on_each_node: false

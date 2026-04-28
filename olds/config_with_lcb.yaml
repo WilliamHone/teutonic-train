@@ -1,0 +1,110 @@
+# config.yaml
+# =============================================================================
+# Model & Data
+# =============================================================================
+model_path: sniper918/Teutonic-III-vxxiv
+data_file: datasets/dataset_v101_std.jsonl
+output_dir: checkpoints/teutonic_vera6_v54
+
+# ✅ Use SFTConfig's native fields:
+max_length: 2048           # ← from SFTConfig (NOT DataArguments)
+seed: 457                  # ← from TrainingArguments (replaces shuffle_seed)
+eval_split_ratio: 0.01     # ✅ Custom field
+skip_prepare_dataset: true # ✅ Custom field
+
+# =============================================================================
+# LoRA
+# =============================================================================
+use_lora: true
+r: 64
+alpha: 640
+dropout: 0.1
+target_modules: "all-linear"
+init_lora_weights: "gaussian"
+
+# =============================================================================
+# Training (ALL from SFTConfig - no conflicts!)
+# =============================================================================
+num_train_epochs: 1
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 4
+learning_rate: 5e-7
+lr_scheduler_type: "cosine_with_min_lr"
+lr_scheduler_kwargs:
+  min_lr_rate: 0.1
+warmup_steps: 0
+bf16: true
+optim: "adamw_torch_fused"
+use_liger_kernel: true
+dataloader_drop_last: true
+dataloader_num_workers: 2
+dataloader_pin_memory: true
+
+# Logging & checkpointing
+logging_steps: 5
+eval_strategy: "steps"
+save_strategy: "steps"
+eval_steps: 10
+save_steps: 100
+save_only_model: true
+include_num_input_tokens_seen: true
+report_to: "wandb"
+
+# Resume
+auto_resume: true
+log_dir: "logs"
+
+# Distributed
+ddp_backend: "nccl"
+ddp_find_unused_parameters: false
+save_on_each_node: false
+
+# =============================================================================
+# ✅ mu_hat/LCB Evaluation (NEW)
+# =============================================================================
+enable_eval_metrics: true
+
+# Data source for evaluation (required for mu_hat/LCB)
+eval_metrics_dir: /root/teutonic/teutonic_dataset  # ← UPDATE: Path to .npy shards from CulturaX
+
+# King model for comparison (defaults to model_path if not specified)
+eval_king_model: tom6979/Teutonic-III-V95ST1800  # ← UPDATE: Your king model
+
+# Sampling config
+eval_n_sequences: 40        # Sequences to sample per eval (balance: speed vs. statistical power)
+eval_seq_len: 2048           # Tokens per sequence (must match model context)
+eval_batch_size: 2          # Batch size for loss computation (adjust for VRAM)
+
+# Bootstrap config
+eval_bootstrap_alpha: 0.001  # One-sided confidence: 0.001 = 99.9% LCB (strict)
+eval_n_bootstrap: 1000      # Bootstrap replicates (more = more stable, slower)
+
+# =============================================================================
+# ✅ King-Beating Detection (NEW)
+# =============================================================================
+eval_delta: 0.0105            # LCB threshold to declare victory (nats/token)
+
+# Behavior when LCB > delta
+save_on_king_beaten: true    # Save special checkpoint when king is beaten ✓
+stop_on_king_beaten: false   # ⚠️ Stop training early when winning (use with caution)
+
+# Where to save winning checkpoints (defaults to output_dir/king-beaten)
+king_beaten_dir: checkpoints/teutonic_vera6_v53/king-beaten
+
+# =============================================================================
+# ✅ Performance Tips (Commented - Uncomment to Optimize)
+# =============================================================================
+# Faster evals (reduce statistical power but speed up training):
+# eval_n_sequences: 160
+# eval_n_bootstrap: 5000
+
+# More rigorous evals (slower but more confident):
+# eval_n_sequences: 640
+# eval_n_bootstrap: 20000
+
+# If VRAM is tight during eval:
+# eval_batch_size: 4
+# eval_seq_len: 1024  # ← Only if your use-case allows shorter sequences
+
+# Disable eval metrics entirely (for debugging / ablation):
+# enable_eval_metrics: false
