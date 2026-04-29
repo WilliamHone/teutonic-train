@@ -5,19 +5,18 @@ set -e  # Exit on error
 
 # ==================== Configuration ====================
 # Model & Data
-MODEL_PATH="Seniordev90101/Teutonic-III-abc-2011"
+MODEL_PATH="iotaminer/Teutonic-VIII-5DFoNuLs-v70b"
 SHARD_DIR="../teutonic_dataset"
 SHARD_START=0
 SHARD_END=1998
 SEQ_LEN=2048
 
 # Sampling
-CANDIDATE_PER_SHARD=2000
+CANDIDATE_PER_SHARD=1200
 BATCH_SIZE=64
-SEED=108
-
+SEED=4
 # Selection Mode: "percentile" or "threshold"
-SELECTION_MODE="threshold"
+SELECTION_MODE="percentile"
 
 # Percentile mode parameters (used if SELECTION_MODE="percentile")
 MIN_LOSS_PERCENTILE=30.0
@@ -27,7 +26,7 @@ MAX_LOSS_PERCENTILE=98.0
 LOSS_THRESHOLD="2.5"  # Set to a float value, e.g., "2.5", to enable threshold mode
 
 # Output
-OUTPUT="datasets/dataset_v108_dynamic.jsonl"
+OUTPUT="datasets/dataset_v04_dynamic.jsonl"
 
 # ==================== Validation ====================
 if [[ "$SELECTION_MODE" == "threshold" && -z "$LOSS_THRESHOLD" ]]; then

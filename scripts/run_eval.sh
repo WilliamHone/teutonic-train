@@ -4,11 +4,10 @@
 set -e  # Exit on error
 
 # Default configuration
-KING_REPO="ClarenceDan/Teutonic-VIII-A5502"
-# CHALLENGER_REPO="sniper918/Teutonic-VIII-lgcd"
-CHALLENGER_REPO="merged/VIII/Teutonic-vera6-v0301"
+KING_REPO="conanedoAI/Teutonic-VIII-5Ek5KoE5-v1-5x-1196"
+CHALLENGER_REPO="merged/VIII/Teutonic-vera6-v0801"
 DATASET_DIR="../teutonic_dataset_eval"
-N_SAMPLES=320
+N_SAMPLES=160
 SEQ_LEN=2048
 BATCH_SIZE=16
 ALPHA=0.001
