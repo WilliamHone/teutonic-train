@@ -4,11 +4,11 @@
 set -e  # Exit on error
 
 # Default configuration (matches original script)
-SHARD_DIR="../teutonic_dataset/"
-OUTPUT_FILE="datasets/dataset_v002_std.jsonl"
+SHARD_DIR="/dev/shm/teutonic/datasets/"
+OUTPUT_FILE="datasets/dataset_v001_std.jsonl"
 SEQ_LEN=2048
 MAX_PER_SHARD=2000
-SEED=2  # Added for reproducibility
+SEED=100  # Added for reproducibility
 
 echo "🚀 Starting dataset generation..."
 echo "  Shard dir : $SHARD_DIR"

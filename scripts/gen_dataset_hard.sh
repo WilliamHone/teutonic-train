@@ -5,8 +5,8 @@ set -e  # Exit on error
 
 # ==================== Configuration ====================
 # Model & Data
-MODEL_PATH="iotaminer/Teutonic-VIII-5DFoNuLs-v70b"
-SHARD_DIR="../teutonic_dataset"
+MODEL_PATH="/dev/shm/teutonic/models/iotaminer/Teutonic-VIII-5DFoNuLs-v70b"
+SHARD_DIR="/dev/shm/teutonic/datasets"
 SHARD_START=0
 SHARD_END=1998
 SEQ_LEN=2048
@@ -26,7 +26,7 @@ MAX_LOSS_PERCENTILE=98.0
 LOSS_THRESHOLD="2.5"  # Set to a float value, e.g., "2.5", to enable threshold mode
 
 # Output
-OUTPUT="datasets/dataset_v04_dynamic.jsonl"
+OUTPUT="datasets/dataset_v001_dynamic.jsonl"
 
 # ==================== Validation ====================
 if [[ "$SELECTION_MODE" == "threshold" && -z "$LOSS_THRESHOLD" ]]; then

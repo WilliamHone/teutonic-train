@@ -4,9 +4,9 @@
 set -e  # Exit on error
 
 # Default configuration (matches original script)
-BASE_MODEL="conanedoAI/Teutonic-VIII-5Ek5KoE5-v1-5x-1196"
-LORA_PATH="checkpoints/VIII/teutonic_vera6_v11/checkpoint-700"
-OUTPUT_DIR="./merged/VIII/Teutonic-vera6-v0801/"
+BASE_MODEL="/dev/shm/teutonic/models/conanedoAI/Teutonic-VIII-5Ek5KoE5-v1-5x-1196"
+LORA_PATH="checkpoints/VIII/teutonic_Foremost04_v001/checkpoint-100"
+OUTPUT_DIR="./merged/VIII/Teutonic-Foremost04-v0101/"
 MAX_SHARD_SIZE="20GB"
 DTYPE="bfloat16"
 
