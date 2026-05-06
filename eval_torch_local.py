@@ -35,7 +35,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from transformers import AutoModelForCausalLM
-
+import quasar
 log = logging.getLogger("eval_torch_local")
 
 

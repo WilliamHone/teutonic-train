@@ -24,7 +24,7 @@ from transformers import (
 )
 from trl import SFTTrainer, SFTConfig
 from peft import LoraConfig, get_peft_model, PeftModel
-
+import quasar
 # Optional: import wandb for explicit logging
 try:
     import wandb
